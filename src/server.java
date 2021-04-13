@@ -13,6 +13,7 @@ public class server {
     public static void main(String[] args) {
         (new server()).go();
     }
+    Object lock = new Object();
     public void go(){
             //player 1
         ServerSocket serverSocket = null;
@@ -52,7 +53,7 @@ public class server {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter print = new PrintWriter(socket.getOutputStream());
                 while(true) {
-                    if (turn == 1) {
+
                         System.out.println("player 1's turn to run");
                         print.println(attack);
                         print.flush();
@@ -66,8 +67,19 @@ public class server {
                         attack = input;
                         turn = 2;
                         System.out.println(turn);
-                    }
-                }
+
+                        synchronized (lock){
+                            lock.notify();
+                        }
+                        synchronized (lock) {
+                            try {
+                                lock.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,7 +101,14 @@ public class server {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter print = new PrintWriter(socket.getOutputStream());
                 while(true) {
-                    if (turn == 2) {
+                    synchronized(lock){
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println("in p2");
                         System.out.println("Player 2's turn to run");
                         print.println(attack);
                         print.flush();
@@ -100,7 +119,9 @@ public class server {
                         //send back
                         attack = input;
                         turn = 1;
-                    }
+                        synchronized (lock) {
+                            lock.notify();
+                        }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
