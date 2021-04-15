@@ -1,14 +1,24 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class client2 {
+public class client2 implements ActionListener {
     public PrintWriter socketWriter;
     public BufferedReader socketReader;
     public BufferedReader userReader;
     public String coordinates;
     public int turn = 1;
+
+    private JTextField send;
+    private JTextField recieve;
+    private JButton butt;
+
     public static void main(String[] args){
         (new client2()).go();
     }
@@ -20,8 +30,72 @@ public class client2 {
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
-            while((coordinates = userReader.readLine()) != null){
-                /*if(turn == 2) {
+
+                send = new JTextField();
+                recieve = new JTextField();
+                butt = new JButton("COMPUTE!");
+                butt.addActionListener(this);
+
+                JFrame jframe = new JFrame();
+                jframe.getContentPane().add(BorderLayout.NORTH, send);
+                jframe.getContentPane().add(BorderLayout.CENTER, butt);
+                jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
+                jframe.setSize(500, 500);
+                jframe.setVisible(true);
+                String response = socketReader.readLine();
+                System.out.println("Response from player 1:" + response);
+
+                socketWriter.println(coordinates);
+                socketWriter.flush();
+
+                while(true){
+                    try {
+                        String returnVal = " something broke in the socket";
+                        returnVal = socketReader.readLine();
+                        System.out.println("Server Response: " + returnVal);
+                        recieve.setText(returnVal);
+                        recieve.repaint();
+                        //turn = 2;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        //if(turn == 2){
+            String in = send.getText();
+            socketWriter.println(in);
+            socketWriter.flush();
+            turn = 1;
+        //}
+
+/*        String returnVal = " something broke in the socket";
+
+        if (turn == 1){
+            try {
+                returnVal = socketReader.readLine();
+                System.out.println("Server Response: " + returnVal);
+                recieve.setText(returnVal);
+                turn = 2;
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+        }
+*/
+    }
+}
+
+
+ /*if(turn == 2) {
                     socketWriter.println(coordinates);
                     socketWriter.flush();
                     turn = 1;
@@ -33,16 +107,3 @@ public class client2 {
                 }
 
                  */
-                String response = socketReader.readLine();
-                System.out.println("Response from player 1:" + response);
-
-                socketWriter.println(coordinates);
-                socketWriter.flush();
-            }
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-}

@@ -15,13 +15,11 @@ public class server {
     }
     Object lock = new Object();
     public void go(){
-            //player 1
+        //player 1
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(6969);
             System.out.println("waiting for client to connect");
-
-
 
             Socket socket1 = serverSocket.accept();
             Runnable player1 = new p1(socket1);
@@ -43,7 +41,7 @@ public class server {
     public class p1 implements Runnable{
         public Socket socket;
         public p1(Socket socket1) {
-               socket = socket1;
+            socket = socket1;
         }
         @Override
         public void run() {
@@ -54,31 +52,31 @@ public class server {
                 PrintWriter print = new PrintWriter(socket.getOutputStream());
                 while(true) {
 
-                        System.out.println("player 1's turn to run");
-                        print.println(attack);
-                        print.flush();
+                    System.out.println("player 1's turn to run");
+                    print.println(attack);
+                    print.flush();
 
-                        String input = buffer.readLine();
-                        System.out.println("received: " + input);
+                    String input = buffer.readLine();
+                    System.out.println("received: " + input);
 
-                        //send back
+                    //send back
 
-                        //System.out.println(attack);
-                        attack = input;
-                        turn = 2;
-                        System.out.println(turn);
+                    //System.out.println(attack);
+                    attack = input;
+                    turn = 2;
+                    System.out.println(turn);
 
-                        synchronized (lock){
-                            lock.notify();
+                    synchronized (lock){
+                        lock.notify();
+                    }
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                        synchronized (lock) {
-                            try {
-                                lock.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        }
+                    }
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -109,26 +107,25 @@ public class server {
                         }
                     }
                     System.out.println("in p2");
-                        System.out.println("Player 2's turn to run");
-                        print.println(attack);
-                        print.flush();
+                    System.out.println("Player 2's turn to run");
+                    print.println(attack);
+                    print.flush();
 
-                        String input = buffer.readLine();
-                        System.out.println("received: " + input);
+                    String input = buffer.readLine();
+                    System.out.println("received: " + input);
 
-                        //send back
-                        attack = input;
-                        turn = 1;
-                        synchronized (lock) {
-                            lock.notify();
-                        }
+                    //send back
+                    attack = input;
+                    turn = 1;
+                    synchronized (lock) {
+                        lock.notify();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
 
 }//big main
