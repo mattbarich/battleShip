@@ -22,7 +22,7 @@ public class Grid {
         }
     }
 
-    void place_ships(){
-
+    void place_ships() {
+        System.out.println("Hello");
     }
 }
