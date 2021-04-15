@@ -9,17 +9,20 @@ public class client {
     public BufferedReader userReader;
     public String coordinates;
     public int turn = 1;
+
     public static void main(String[] args){
         (new client()).go();
     }
 
     private void go() {
-
         try {
             Socket sock = new Socket("127.0.0.1", 6969);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
+            Grid grid = new Grid();
+            grid.populate_grid();
+            grid.print_grid();
             while((coordinates = userReader.readLine()) != null){
                 if(turn == 1) {
                     socketWriter.println(coordinates);

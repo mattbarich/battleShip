@@ -20,19 +20,10 @@ public class client2 {
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
+            Grid grid = new Grid();
+            grid.populate_grid();
+            grid.print_grid();
             while((coordinates = userReader.readLine()) != null){
-                /*if(turn == 2) {
-                    socketWriter.println(coordinates);
-                    socketWriter.flush();
-                    turn = 1;
-                }
-                if (turn == 1){
-                    String response = socketReader.readLine();
-                    System.out.println("Response from player 1:" + response);
-                    turn = 2;
-                }
-
-                 */
                 String response = socketReader.readLine();
                 System.out.println("Response from player 1:" + response);
 
