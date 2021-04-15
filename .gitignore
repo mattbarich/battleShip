@@ -3,5 +3,9 @@
 /workspace.xml
 .idea/
 *.iml
+<<<<<<< HEAD
 .DS_store
+=======
+.DS_Store
+>>>>>>> 3b9728878630356df2cad9a9c5a18dfa2b0d34eb
 out/
