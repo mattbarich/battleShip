@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static java.lang.Thread.sleep;
-
 public class server {
     public String attack = "first round";
     public int turn = 1;
@@ -58,10 +56,6 @@ public class server {
 
                     String input = buffer.readLine();
                     System.out.println("received: " + input);
-
-                    //send back
-
-                    //System.out.println(attack);
                     attack = input;
                     turn = 2;
                     System.out.println(turn);

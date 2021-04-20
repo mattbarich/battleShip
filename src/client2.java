@@ -31,36 +31,36 @@ public class client2 implements ActionListener {
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
 
-                send = new JTextField();
-                recieve = new JTextField();
-                butt = new JButton("COMPUTE!");
-                butt.addActionListener(this);
+            send = new JTextField();
+            recieve = new JTextField();
+            butt = new JButton("COMPUTE!");
+            butt.addActionListener(this);
 
-                JFrame jframe = new JFrame();
-                jframe.getContentPane().add(BorderLayout.NORTH, send);
-                jframe.getContentPane().add(BorderLayout.CENTER, butt);
-                jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
-                jframe.setSize(500, 500);
-                jframe.setVisible(true);
-                String response = socketReader.readLine();
-                System.out.println("Response from player 1:" + response);
+            JFrame jframe = new JFrame();
+            jframe.getContentPane().add(BorderLayout.NORTH, send);
+            jframe.getContentPane().add(BorderLayout.CENTER, butt);
+            jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
+            jframe.setSize(500, 500);
+            jframe.setVisible(true);
+            String response = socketReader.readLine();
+            System.out.println("Response from player 1:" + response);
 
-                socketWriter.println(coordinates);
-                socketWriter.flush();
+            socketWriter.println(coordinates);
+            socketWriter.flush();
 
-                while(true){
-                    try {
-                        String returnVal = " something broke in the socket";
-                        returnVal = socketReader.readLine();
-                        System.out.println("Server Response: " + returnVal);
-                        recieve.setText(returnVal);
-                        recieve.repaint();
-                        //turn = 2;
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-
+            while(true){
+                try {
+                    String returnVal = " something broke in the socket";
+                    returnVal = socketReader.readLine();
+                    System.out.println("Server Response: " + returnVal);
+                    recieve.setText(returnVal);
+                    recieve.repaint();
+                    //turn = 2;
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
+
+            }
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -69,41 +69,9 @@ public class client2 implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        //if(turn == 2){
-            String in = send.getText();
-            socketWriter.println(in);
-            socketWriter.flush();
-            turn = 1;
-        //}
-
-/*        String returnVal = " something broke in the socket";
-
-        if (turn == 1){
-            try {
-                returnVal = socketReader.readLine();
-                System.out.println("Server Response: " + returnVal);
-                recieve.setText(returnVal);
-                turn = 2;
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-
-        }
-*/
+        String in = send.getText();
+        socketWriter.println(in);
+        socketWriter.flush();
+        turn = 1;
     }
 }
-
-
- /*if(turn == 2) {
-                    socketWriter.println(coordinates);
-                    socketWriter.flush();
-                    turn = 1;
-                }
-                if (turn == 1){
-                    String response = socketReader.readLine();
-                    System.out.println("Response from player 1:" + response);
-                    turn = 2;
-                }
-
-                 */
