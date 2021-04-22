@@ -26,6 +26,10 @@ public class client2 implements ActionListener {
     private void go() {
 
         try {
+            Grid grid = new Grid();
+            String[][] player1 = grid.populate_grid();
+            grid.place_ship();
+            grid.print_grid();
             Socket sock = new Socket("127.0.0.1", 6969);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -57,6 +61,7 @@ public class client2 implements ActionListener {
                     recieve.repaint();
                     butt.setEnabled(true);
                     //turn = 2;
+
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
