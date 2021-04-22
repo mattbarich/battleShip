@@ -43,8 +43,6 @@ public class server {
         }
         @Override
         public void run() {
-            //communicate
-
             try {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter print = new PrintWriter(socket.getOutputStream());
@@ -78,17 +76,13 @@ public class server {
         }
     }
 
-
     public class p2 implements Runnable{
         public Socket socket;
-
         public p2(Socket socket2) {
             socket = socket2;
         }
-
         @Override
         public void run() {
-            //communicate
             try {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter print = new PrintWriter(socket.getOutputStream());

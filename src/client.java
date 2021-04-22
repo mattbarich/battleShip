@@ -11,7 +11,6 @@ public class client implements ActionListener {
     public PrintWriter socketWriter;
     public BufferedReader socketReader;
     public BufferedReader userReader;
-    public String coordinates;
     private JTextField send;
     private JTextField recieve;
     private JTextField userGrid;
@@ -27,7 +26,7 @@ public class client implements ActionListener {
         try {
             Grid grid = new Grid();
             String[][] player1 = grid.populate_grid();
-            grid.place_ships();
+            grid.place_ship();
             grid.print_grid();
             Socket sock = new Socket("127.0.0.1", 6969);
             socketWriter = new PrintWriter(sock.getOutputStream());
@@ -37,14 +36,12 @@ public class client implements ActionListener {
 
             send = new JTextField();
             recieve = new JTextField();
-            userGrid = new JTextField();
             butt = new JButton("COMPUTE!");
             butt.addActionListener(this);
 
             JFrame jframe = new JFrame();
             jframe.getContentPane().add(BorderLayout.NORTH, send);
-            jframe.getContentPane().add(BorderLayout.CENTER, userGrid);
-            jframe.getContentPane().add(BorderLayout.EAST, butt);
+            jframe.getContentPane().add(BorderLayout.CENTER, butt);
             jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
             jframe.setSize(500, 500);
             jframe.setVisible(true);
