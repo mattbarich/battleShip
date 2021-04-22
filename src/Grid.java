@@ -35,7 +35,7 @@ public class Grid {
     }
 
     boolean check_player_guess(String returnVal){
-        System.out.println("In player guess: " + returnVal);
+        returnVal.trim().split(",");
         return false;
     }
 }
