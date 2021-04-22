@@ -59,6 +59,9 @@ public class client2 implements ActionListener {
                     System.out.println("Server Response: " + returnVal);
                     recieve.setText(returnVal);
                     recieve.repaint();
+                    butt.setEnabled(true);
+                    //turn = 2;
+
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -76,5 +79,6 @@ public class client2 implements ActionListener {
         socketWriter.println(in);
         socketWriter.flush();
         turn = 1;
+        butt.setEnabled(false);
     }
 }
