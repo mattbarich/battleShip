@@ -3,6 +3,7 @@ public class Grid {
     public static final int NUM_COL = 3;
 
     String[][] grid = new String[NUM_ROW][NUM_COL];
+    String[] line;
     String default_value = "-";
 
     String[][] populate_grid() {
@@ -34,8 +35,18 @@ public class Grid {
         }
     }
 
-    boolean check_player_guess(String returnVal){
-        returnVal.trim().split(",");
-        return false;
+    String check_player_guess(String returnVal){
+        line = returnVal.trim().split(",");
+        int user_x_coordinate = Integer.parseInt(line[0]);
+        int user_y_coordinate = Integer.parseInt(line[1]);
+        System.out.println("user x coordinate: " + user_x_coordinate);
+        System.out.println("user y coordinate: " + user_y_coordinate);
+        if(grid[user_x_coordinate-1][user_y_coordinate-1] == "1") {
+            System.out.println("HIT");
+            grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
+        }else{
+            System.out.println("Miss");
+        }
+        return returnVal;
     }
 }

@@ -46,12 +46,6 @@ public class client2 implements ActionListener {
             jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
             jframe.setSize(500, 500);
             jframe.setVisible(true);
-            String response = socketReader.readLine();
-            System.out.println("Response from player 1:" + response);
-
-            socketWriter.println(coordinates);
-            socketWriter.flush();
-
             while(true){
                 try {
                     String returnVal = " something broke in the socket";
@@ -60,8 +54,6 @@ public class client2 implements ActionListener {
                     recieve.setText(returnVal);
                     recieve.repaint();
                     butt.setEnabled(true);
-                    //turn = 2;
-
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

@@ -17,6 +17,7 @@ public class client implements ActionListener {
     private JTextField recieve;
     //private JTextField userGrid;
     private JButton butt;
+    private int count = 0;
 
     String[][] grid;
 
@@ -102,6 +103,12 @@ public class client implements ActionListener {
                 returnVal = socketReader.readLine();
                 System.out.println("Server Response: " + returnVal);
                 recieve.setText(returnVal);
+                count++;
+                System.out.println(count);
+                if(count > 1) {
+                    grid.check_player_guess(returnVal);
+                }
+                grid.print_grid();
                 recieve.repaint();
                 butt.setEnabled(true);
             }
@@ -116,6 +123,6 @@ public class client implements ActionListener {
         String in = send.getText();
         socketWriter.println(in);
         socketWriter.flush();
-        butt.setEnabled(false);
+       butt.setEnabled(false);
     }
 }
