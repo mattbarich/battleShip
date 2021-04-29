@@ -14,10 +14,13 @@ public class client2 implements ActionListener {
     public BufferedReader userReader;
     public String coordinates;
     public int turn = 1;
+    private String hitOrMiss;
+    private String response;
 
     private JTextField send;
     private JTextField recieve;
     private JButton butt;
+    private String attack;
 
     public static void main(String[] args){
         (new client2()).go();
@@ -46,14 +49,46 @@ public class client2 implements ActionListener {
             jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
             jframe.setSize(500, 500);
             jframe.setVisible(true);
+<<<<<<< HEAD
+=======
+            //String response = socketReader.readLine();
+            //System.out.println("Response from player 1:" + response);
+
+            //socketWriter.println(coordinates);
+            //socketWriter.flush();
+
+>>>>>>> 871dd521dd2005a6c13e87b1ee4b47569b2f08db
             while(true){
                 try {
+
                     String returnVal = " something broke in the socket";
                     returnVal = socketReader.readLine();
-                    System.out.println("Server Response: " + returnVal);
+                    System.out.println("The attack I recieved is: " + returnVal);
                     recieve.setText(returnVal);
                     recieve.repaint();
+
+                    //recieved attack
+                    //check if hit or miss()
+                    //update defense grid()
+                    hitOrMiss = "hit";
+                    System.out.println("I have determined that it is a ..." + hitOrMiss);
+                    String response = hitOrMiss;
+                    socketWriter.println(response);
+                    socketWriter.flush();
                     butt.setEnabled(true);
+<<<<<<< HEAD
+=======
+
+
+                    response = socketReader.readLine();
+                    System.out.println("my attack: "+ attack  +"was a ..." + response);
+                    //update my offense grid()
+
+
+
+                    //turn = 2;
+
+>>>>>>> 871dd521dd2005a6c13e87b1ee4b47569b2f08db
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -67,8 +102,8 @@ public class client2 implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String in = send.getText();
-        socketWriter.println(in);
+        attack = send.getText();
+        socketWriter.println(attack);
         socketWriter.flush();
         turn = 1;
         butt.setEnabled(false);

@@ -7,6 +7,7 @@ import java.net.Socket;
 
 public class server {
     public String attack = "first round";
+    private String outcome = "hit";
     public int turn = 1;
     public static void main(String[] args) {
         (new server()).go();
@@ -48,15 +49,15 @@ public class server {
                 PrintWriter print = new PrintWriter(socket.getOutputStream());
                 while(true) {
 
-                    System.out.println("player 1's turn to run");
+                    /*System.out.println("player 1's turn to run");
                     print.println(attack);
                     print.flush();
-
+                    */
                     String input = buffer.readLine();
-                    System.out.println("received: " + input);
+                    System.out.println("p1's attack is: " + input);
                     attack = input;
-                    turn = 2;
-                    System.out.println(turn);
+                    //turn = 2;
+                    //System.out.println(turn);
 
                     synchronized (lock){
                         lock.notify();
@@ -68,7 +69,44 @@ public class server {
                             e.printStackTrace();
                         }
                     }
-                }
+
+
+                    //update outcome grid
+                    print.println(outcome);
+                    print.flush();
+                    System.out.println("P1 has updated its grid to reflect the " + outcome);
+                    System.out.println("\n~~~~~~~~~Player 2's turn~~~~~~~\n");
+
+                    synchronized (lock){
+                        lock.notify();
+                    }
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //recieve attack
+                    System.out.println("p1 recieved '" + attack +"' from p2");
+                    print.println(attack);
+                    print.flush();
+                    //
+                    //determine hit or not
+                    outcome = buffer.readLine();
+                    System.out.println("p1 deemed it was a " + outcome);
+
+                    synchronized (lock){
+                        lock.notify();
+                    }
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }//while
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -94,18 +132,52 @@ public class server {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("in p2");
-                    System.out.println("Player 2's turn to run");
+                    //System.out.println("in p2");
+                    //System.out.println("Player 2's turn to run");
+                    System.out.println("p2 recieved '" + attack +"' from p1");
                     print.println(attack);
                     print.flush();
 
+                    // update grid
+                    //determine if it is hit
+                    outcome = buffer.readLine();
+                    System.out.println("p2 deemed that the attack is a" +outcome);
+
+
+                    synchronized (lock){
+                        lock.notify();
+                    }
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     String input = buffer.readLine();
-                    System.out.println("received: " + input);
+                    System.out.println("P2 sends attack '" + input + "' to p1");
 
                     //send back
                     attack = input;
                     turn = 1;
+
                     synchronized (lock) {
+                        lock.notify();
+                    }
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //update outcome grid
+                    print.println(outcome);
+                    print.flush();
+                    System.out.println("P2 has updated its grid to reflect the " + outcome);
+                    System.out.println("\n~~~~~~~~~Player 1's turn~~~~~~~\n");
+                    synchronized (lock){
                         lock.notify();
                     }
                 }
