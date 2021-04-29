@@ -70,8 +70,7 @@ public class client2 implements ActionListener {
                     //update defense grid()
                     //hitOrMiss = "hit";
                     System.out.println("I have determined that it is a ..." + hitOrMiss);
-                    String response = hitOrMiss;
-                    socketWriter.println(response);
+                    socketWriter.println(hitOrMiss);
                     socketWriter.flush();
                     butt.setEnabled(true);
 

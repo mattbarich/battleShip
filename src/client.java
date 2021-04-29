@@ -39,9 +39,8 @@ public class client implements ActionListener {
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
 
-            rows = 10;
-            columns = 10;
-
+            rows = 5;
+            columns = 5;
 
             JPanel userGrid1 = new JPanel();
             JButton[][] receptions = new JButton[rows][columns];
@@ -50,8 +49,13 @@ public class client implements ActionListener {
                 for( int column = 0; column < columns; column++){
                     JButton square = new JButton();
                     square.setBackground(Color.CYAN);
-                    //square.setText("ocean");
-                    // square.setForeground(Color.yellow);
+                    square.setText("ocean");
+                    if(player1[row][column] == "1"){
+                        square.setBackground(Color.BLACK);
+                        square.setText("Ship!");
+                        square.setForeground(Color.white);
+                    }
+
                     square.setOpaque(true);
                     square.setBorderPainted(false);
 
@@ -60,6 +64,10 @@ public class client implements ActionListener {
                 }
             }
 
+
+
+
+
             JButton[][] attacks = new JButton[rows][columns];
             JPanel userGrid2 = new JPanel();
             userGrid2.setLayout(new GridLayout(rows,columns));
@@ -67,7 +75,7 @@ public class client implements ActionListener {
                 for( int m = 0; m < columns; m++){
                     JButton square = new JButton();
                     square.setBackground(Color.BLUE);
-                    square.setText("ocean");
+                    square.setText("mystery");
                     square.setForeground(Color.yellow);
                     square.setOpaque(true);
                     square.setBorderPainted(false);
@@ -76,12 +84,12 @@ public class client implements ActionListener {
                     userGrid2.add(square);
                 }
             }
-            userGrid2.setBackground(Color.GREEN);
-            attacks[1][2].setBackground(Color.red);
-            attacks[2][7].setBackground(Color.WHITE);
+            //userGrid2.setBackground(Color.GREEN);
+            //attacks[1][2].setBackground(Color.red);
+            //attacks[2][4].setBackground(Color.WHITE);
 
-            receptions[1][5].setText("HIT!!!");
-            receptions[2][5].setText("MISS");
+            //receptions[1][5].setText("HIT!!!");
+            //receptions[2][5].setText("MISS");
 
 
 
@@ -104,6 +112,20 @@ public class client implements ActionListener {
             while(true){
                 response = socketReader.readLine();
                 System.out.println("the attack: "  + attack + "I sent was a ..." + response);
+                String[] q = attack.trim().split(",");
+                int x = Integer.parseInt(q[0]);
+                int y = Integer.parseInt(q[1]);
+                if(response.equals("hit")){
+                    attacks[x-1][y-1].setBackground(Color.RED);
+                    attacks[x-1][y-1].setText("HIT");
+                }
+                else {
+                    attacks[x-1][y-1].setBackground(Color.white);
+                    attacks[x-1][y-1].setText("MISS");
+
+                }
+                attacks[x-1][y-1].setForeground(Color.black);
+                userGrid2.repaint();
 
                 //update offense grid()
 
@@ -116,6 +138,16 @@ public class client implements ActionListener {
                 grid.print_grid();
                 //determine hit or miss
                 //update defense grid()
+                String[] r = returnVal.trim().split(",");
+                int user_x_coordinate = Integer.parseInt(r[0]);
+                int user_y_coordinate = Integer.parseInt(r[1]);
+                if (hitOrMiss.equals("hit")) {
+                    receptions[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.RED);
+                }
+                else{
+                    receptions[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.white);
+                }
+                userGrid1.repaint();
                 //hitOrMiss = "miss"; // or hit
                 //System.out.println("I have determined that it is a ..." + hitOrMiss);
                 socketWriter.println(hitOrMiss);
