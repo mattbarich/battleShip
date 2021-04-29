@@ -1,6 +1,6 @@
 public class Grid {
-    public static final int NUM_ROW = 3;
-    public static final int NUM_COL = 3;
+    public static final int NUM_ROW = 5;
+    public static final int NUM_COL = 5;
 
     String[][] grid = new String[NUM_ROW][NUM_COL];
     String[] line;
@@ -39,13 +39,12 @@ public class Grid {
         line = returnVal.trim().split(",");
         int user_x_coordinate = Integer.parseInt(line[0]);
         int user_y_coordinate = Integer.parseInt(line[1]);
-        System.out.println("user x coordinate: " + user_x_coordinate);
-        System.out.println("user y coordinate: " + user_y_coordinate);
         if(grid[user_x_coordinate-1][user_y_coordinate-1] == "1") {
             System.out.println("HIT");
             grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
+            returnVal = "hit";
         }else{
-            System.out.println("Miss");
+            returnVal = "miss";
         }
         return returnVal;
     }

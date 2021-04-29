@@ -18,12 +18,9 @@ public class client implements ActionListener {
     private JTextField recieve;
     //private JTextField userGrid;
     private JButton butt;
-<<<<<<< HEAD
     private int count = 0;
-=======
     private String hitOrMiss;
     private String response;
->>>>>>> 871dd521dd2005a6c13e87b1ee4b47569b2f08db
 
     String[][] grid;
 
@@ -114,17 +111,13 @@ public class client implements ActionListener {
                 returnVal = socketReader.readLine();
                 System.out.println("the attack I recieved is: "  + returnVal);
                 recieve.setText(returnVal);
-                count++;
-                System.out.println(count);
-                if(count > 1) {
-                    grid.check_player_guess(returnVal);
-                }
-                grid.print_grid();
                 recieve.repaint();
+                hitOrMiss = grid.check_player_guess(returnVal);
+                grid.print_grid();
                 //determine hit or miss
                 //update defense grid()
-                hitOrMiss = "miss"; // or hit
-                System.out.println("I have determined that it is a ..." + hitOrMiss);
+                //hitOrMiss = "miss"; // or hit
+                //System.out.println("I have determined that it is a ..." + hitOrMiss);
                 socketWriter.println(hitOrMiss);
                 socketWriter.flush();
 
