@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class client implements ActionListener {
+    private String attack;
     public int rows;
     public int columns;
     public PrintWriter socketWriter;
@@ -17,6 +18,8 @@ public class client implements ActionListener {
     private JTextField recieve;
     //private JTextField userGrid;
     private JButton butt;
+    private String hitOrMiss;
+    private String response;
 
     String[][] grid;
 
@@ -98,11 +101,23 @@ public class client implements ActionListener {
             jframe.setVisible(true);
 
             while(true){
+                response = socketReader.readLine();
+                System.out.println("the attack: "  + attack + "I sent was a ..." + response);
+
+                //update offense grid()
+
                 String returnVal = " something broke in the socket";
                 returnVal = socketReader.readLine();
-                System.out.println("Server Response: " + returnVal);
+                System.out.println("the attack I recieved is: "  + returnVal);
                 recieve.setText(returnVal);
                 recieve.repaint();
+                //determine hit or miss
+                //update defense grid()
+                hitOrMiss = "miss"; // or hit
+                System.out.println("I have determined that it is a ..." + hitOrMiss);
+                socketWriter.println(hitOrMiss);
+                socketWriter.flush();
+
                 butt.setEnabled(true);
             }
 
@@ -113,8 +128,8 @@ public class client implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String in = send.getText();
-        socketWriter.println(in);
+        attack = send.getText();
+        socketWriter.println(attack);
         socketWriter.flush();
         butt.setEnabled(false);
     }
