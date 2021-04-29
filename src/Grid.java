@@ -1,8 +1,9 @@
 public class Grid {
-    public static final int NUM_ROW = 3;
-    public static final int NUM_COL = 3;
+    public static final int NUM_ROW = 5;
+    public static final int NUM_COL = 5;
 
     String[][] grid = new String[NUM_ROW][NUM_COL];
+    String[] line;
     String default_value = "-";
 
     String[][] populate_grid() {
@@ -22,7 +23,6 @@ public class Grid {
             System.out.println();
         }
     }
-
     void place_ship(){
         int x_ship_starting_position = (int) (Math.random()*3 - 1) + 1;
         int y_ship_starting_position = (int) (Math.random()*3 - 1) + 1;
@@ -33,5 +33,19 @@ public class Grid {
                 }
             }
         }
+    }
+
+    String check_player_guess(String returnVal){
+        line = returnVal.trim().split(",");
+        int user_x_coordinate = Integer.parseInt(line[0]);
+        int user_y_coordinate = Integer.parseInt(line[1]);
+        if(grid[user_x_coordinate-1][user_y_coordinate-1] == "1") {
+            System.out.println("HIT");
+            grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
+            returnVal = "hit";
+        }else{
+            returnVal = "miss";
+        }
+        return returnVal;
     }
 }
