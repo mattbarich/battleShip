@@ -1,3 +1,5 @@
+import java.time.temporal.ValueRange;
+
 public class Grid {
     public static final int NUM_ROW = 5;
     public static final int NUM_COL = 5;
@@ -15,20 +17,20 @@ public class Grid {
         return grid;
     }
 
-    private int ship_size(int x_ship_starting_position, int y_ship_starting_position, int count){
+    private int ship_size(int row_coordinate, int col_coordinate, int count){
         switch (count){
             case 0:
                 break;
             case 1:
-                if(grid[x_ship_starting_position][y_ship_starting_position] != "1" || grid[x_ship_starting_position][y_ship_starting_position] != "3"){
-                    grid[x_ship_starting_position-1][y_ship_starting_position] = "A";
+                if(grid[row_coordinate][col_coordinate] != "1" || grid[row_coordinate][col_coordinate] != "3"){
+                    grid[row_coordinate-1][col_coordinate] = "A";
                 }else{
-                    grid[x_ship_starting_position+1][y_ship_starting_position] = "A";
+                    grid[row_coordinate+1][col_coordinate] = "A";
                 }
                 break;
             case 2:
-                System.out.println(x_ship_starting_position);
-                System.out.println(y_ship_starting_position);
+                System.out.println(row_coordinate);
+                System.out.println(col_coordinate);
                 break;
         }
         return count;
@@ -36,17 +38,17 @@ public class Grid {
 
 
 
-    private void place_user_ships(int x_ship_starting_position, int y_ship_starting_position, int count){
+    private void place_user_ships(int row_coordinate, int col_coordinate, int count){
         System.out.println(count);
         switch (count){
             case 1:
-                grid[x_ship_starting_position][y_ship_starting_position] = "2";
+                grid[row_coordinate-1][col_coordinate-1] = "2";
                 break;
             case 2:
-                grid[x_ship_starting_position][y_ship_starting_position] = "3";
+                grid[row_coordinate-1][col_coordinate-1] = "3";
                 break;
             default:
-                grid[x_ship_starting_position][y_ship_starting_position] = "1";
+                grid[row_coordinate-1][col_coordinate-1] = "1";
                 break;
         }
     }
@@ -60,22 +62,33 @@ public class Grid {
         }
     }
 
-    private boolean validate_ship(int x_ship_starting_position, int y_ship_starting_position){
-        return grid[x_ship_starting_position][y_ship_starting_position] != "1" && grid[x_ship_starting_position][y_ship_starting_position] != "2" &&grid[x_ship_starting_position][y_ship_starting_position] != "3";
+    private int get_random_coordinate(int row_coordinate){
+        row_coordinate = (int) (Math.random()*5 - 1) + 1;
+        return row_coordinate;
+    }
+
+    private boolean validate_ship(int row_coordinate, int col_coordinate){
+        return grid[row_coordinate-1][col_coordinate-1] != "1" && grid[row_coordinate-1][col_coordinate-1] != "2" && grid[row_coordinate-1][col_coordinate-1] != "3";
     }
 
     void place_ship(){
         for(int i=0; i < 3; i++){
             int count = i;
-            int x_ship_starting_position = (int) (Math.random()*5 - 1) + 1;
-            int y_ship_starting_position = (int) (Math.random()*5 - 1) + 1;
-            System.out.println("("+x_ship_starting_position+","+y_ship_starting_position+")");
-            if(validate_ship(x_ship_starting_position,y_ship_starting_position)== true){
-                place_user_ships(x_ship_starting_position, y_ship_starting_position, count);
+            int row_coordinate = 0;
+            int col_coordinate = (int) (Math.random()*5 - 1) + 1;
+            row_coordinate = get_random_coordinate(row_coordinate);
+            System.out.println("("+row_coordinate+","+col_coordinate+")");
+            if(validate_ship(row_coordinate,col_coordinate)== true){
+                System.out.println("valid");
+                place_user_ships(row_coordinate, col_coordinate, count);
             }else{
+                row_coordinate = get_random_coordinate(row_coordinate);
+                validate_ship(row_coordinate, col_coordinate);
+                System.out.println("("+row_coordinate+","+col_coordinate+")");
+                place_user_ships(row_coordinate, col_coordinate, count);
             }
 
-            //ship_size(x_ship_starting_position, y_ship_starting_position, count);
+            //ship_size(row_coordinate, col_coordinate, count);
         }
     }
 
@@ -85,6 +98,14 @@ public class Grid {
         int user_x_coordinate = Integer.parseInt(line[0]);
         int user_y_coordinate = Integer.parseInt(line[1]);
         if(grid[user_x_coordinate-1][user_y_coordinate-1] == "1") {
+            System.out.println("HIT");
+            grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
+            returnVal = "hit";
+        }else if(grid[user_x_coordinate-1][user_y_coordinate-1] == "2"){
+            System.out.println("HIT");
+            grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
+            returnVal = "hit";
+        }else if(grid[user_x_coordinate-1][user_y_coordinate-1] == "3") {
             System.out.println("HIT");
             grid[user_x_coordinate-1][user_y_coordinate-1] = "H";
             returnVal = "hit";

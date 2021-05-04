@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -72,7 +73,6 @@ public class server {
                         }
                     }
 
-
                     //update outcome grid
                     print.println(outcome);
                     print.flush();
@@ -89,7 +89,7 @@ public class server {
                             e.printStackTrace();
                         }
                     }
-                    //recieve attack
+                    //receive attack
                     System.out.println("p1 recieved '" + attack +"' from p2");
                     print.println(attack);
                     print.flush();
@@ -138,8 +138,7 @@ public class server {
                             e.printStackTrace();
                         }
                     }
-                    //System.out.println("in p2");
-                    //System.out.println("Player 2's turn to run");
+
                     System.out.println("p2 recieved '" + attack +"' from p1");
                     print.println(attack);
                     print.flush();
