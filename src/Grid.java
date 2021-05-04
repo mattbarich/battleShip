@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class Grid {
     public static final int NUM_ROW = 5;
     public static final int NUM_COL = 5;
@@ -49,6 +52,5 @@ public class Grid {
         }
         return returnVal;
     }
-
 
 }
