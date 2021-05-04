@@ -52,7 +52,7 @@ public class client implements ActionListener {
                     square.setText("ocean");
                     if(player1[row][column] == "1"){
                         square.setBackground(Color.BLACK);
-                        square.setText("Ship!");
+                        square.setText("My Ship!");
                         square.setForeground(Color.white);
                     }
 
@@ -95,17 +95,17 @@ public class client implements ActionListener {
 
 
             send = new JTextField();
+            send.setText("Enter the coordinates you want to strike");
             recieve = new JTextField();
-            butt = new JButton("COMPUTE!");
+            butt = new JButton("Send Missile");
             butt.addActionListener(this);
 
             JFrame jframe = new JFrame();
             jframe.getContentPane().add(BorderLayout.NORTH, send);
-
             jframe.getContentPane().add(BorderLayout.EAST, userGrid1);
             jframe.getContentPane().add(BorderLayout.WEST, userGrid2);
-            jframe.getContentPane().add(BorderLayout.CENTER, butt);
-            jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
+            jframe.getContentPane().add(BorderLayout.SOUTH, butt);
+            //jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
             jframe.setSize(500, 500);
             jframe.setVisible(true);
 
