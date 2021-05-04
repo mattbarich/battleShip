@@ -63,12 +63,8 @@ public class client2 implements ActionListener {
                     System.out.println("The attack I recieved is: " + returnVal);
                     recieve.setText(returnVal);
                     recieve.repaint();
-                    //recieved attack
                     hitOrMiss = grid.check_player_guess(returnVal);
                     grid.print_grid();
-                    //check if hit or miss()
-                    //update defense grid()
-                    //hitOrMiss = "hit";
                     System.out.println("I have determined that it is a ..." + hitOrMiss);
                     String response = hitOrMiss;
                     socketWriter.println(response);
@@ -77,7 +73,6 @@ public class client2 implements ActionListener {
 
                     response = socketReader.readLine();
                     System.out.println("my attack: "+ attack  +"was a ..." + response);
-                    //update my offense grid()
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

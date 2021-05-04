@@ -104,9 +104,6 @@ public class client implements ActionListener {
             while(true){
                 response = socketReader.readLine();
                 System.out.println("the attack: "  + attack + "I sent was a ..." + response);
-
-                //update offense grid()
-
                 String returnVal = " something broke in the socket";
                 returnVal = socketReader.readLine();
                 System.out.println("the attack I recieved is: "  + returnVal);
@@ -114,10 +111,7 @@ public class client implements ActionListener {
                 recieve.repaint();
                 hitOrMiss = grid.check_player_guess(returnVal);
                 grid.print_grid();
-                //determine hit or miss
-                //update defense grid()
-                //hitOrMiss = "miss"; // or hit
-                //System.out.println("I have determined that it is a ..." + hitOrMiss);
+                System.out.println("I have determined that it is a ... " + hitOrMiss);
                 socketWriter.println(hitOrMiss);
                 socketWriter.flush();
 
