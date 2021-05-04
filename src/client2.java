@@ -97,7 +97,6 @@ public class client2 implements ActionListener {
 
             while(true){
                 try {
-
                     String returnVal = " something broke in the socket";
                     returnVal = socketReader.readLine();
                     System.out.println("The attack I recieved is: " + returnVal);
@@ -145,9 +144,7 @@ public class client2 implements ActionListener {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
             }
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }
