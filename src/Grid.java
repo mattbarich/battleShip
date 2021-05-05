@@ -56,15 +56,21 @@ public class Grid {
         }
     }
 
+    private int getRowNum(int max, int min){
+        return (int) (Math.random() * ((max-min) + 1)) + min;
+    }
+
     void place_ship(){
         for(int i=0; i < 3; i++){
             int count = i;
             int row_coordinate = i+1;
+            if(row_coordinate == 3){
+                row_coordinate = getRowNum(5,3);
+            }
             int col_coordinate = (int) (Math.random()*4 - 1) + 1;
             row_coordinates.add(row_coordinate);
             place_user_ships(row_coordinate, col_coordinate, count);
             ship_size(row_coordinate, col_coordinate, count);
-
         }
     }
 
