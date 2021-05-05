@@ -30,9 +30,9 @@ public class client implements ActionListener {
 
     private int rows = 5;
     private int columns = 5;
-    private int enemyShips = 2;
+    private int enemyShips = 6;
     private int hits = 0;
-    private int myShips = 2;
+    private int myShips;
     private int hitsOnMe = 0;
 
     public static void main(String[] args){
@@ -45,6 +45,8 @@ public class client implements ActionListener {
             String[][] player1 = grid.populate_grid();
             grid.place_ship();
             grid.print_grid();
+            myShips = grid.getUserShips();
+            System.out.println("My Ships = " + myShips);
             Socket sock = new Socket("127.0.0.1", 6969);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
