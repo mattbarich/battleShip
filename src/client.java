@@ -1,10 +1,15 @@
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
+import java.io.File;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +31,8 @@ public class client implements ActionListener {
     private JButton[][] sentStrikes;
     private String[] receivedStrike;
     private String[] sentStrike;
+
+    private String missSound = "..//soundEffects/hit.wav";
 
     private int rows = 7;
     private int columns = 7;
@@ -165,9 +172,13 @@ public class client implements ActionListener {
                 int user_y_coordinate = Integer.parseInt(receivedStrike[1]);
                 if (hitOrMiss.equals("hit")) {
                     receivedStrikes[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.RED);
+                    File hit = new File(".//soundEffects//hit.wav");
+                    playHit(hit);
                 }
                 else{
                     receivedStrikes[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.white);
+                    File hit = new File(".//soundEffects//miss.wav");
+                    playHit(hit);
                 }
                 myOcean.repaint();
                 socketWriter.println(hitOrMiss);
@@ -201,5 +212,15 @@ public class client implements ActionListener {
         socketWriter.println(attack);
         socketWriter.flush();
         butt.setEnabled(false);
+    }
+
+    private static void playHit(File Sound){
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(Sound));
+            clip.start();
+        }catch (Exception e){
+
+        }
     }
 }
