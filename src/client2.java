@@ -10,11 +10,11 @@ import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 public class client2 implements ActionListener {
-    public PrintWriter socketWriter;
-    public BufferedReader socketReader;
-    public BufferedReader userReader;
-    public String coordinates;
-    public int turn = 1;
+    private PrintWriter socketWriter;
+    private BufferedReader socketReader;
+    private BufferedReader userReader;
+    private String coordinates;
+    private int turn = 1;
     private String hitOrMiss;
     private String response;
 
@@ -29,12 +29,13 @@ public class client2 implements ActionListener {
     private String[] receivedStrike;
     private String[] sentStrike;
 
-    private int rows = 5;
-    private int columns = 5;
-    private int enemyShips = 1;
+    private int rows = 7;
+    private int columns = 7;
+    private int enemyShips = 10;
     private int hits = 0;
     private int hitsOnMe = 0;
-    private int myShips = 1;
+    private int myShips;
+
 
     public static void main(String[] args){
         (new client2()).go();
@@ -47,15 +48,17 @@ public class client2 implements ActionListener {
             String[][] player2 = grid.populate_grid();
             grid.place_ship();
             grid.print_grid();
-            Socket sock = new Socket("127.0.0.1", 6969);
+            myShips = grid.getUserShips();
+            System.out.println(myShips);
+            Socket sock = new Socket("127.0.0.1", 7070);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
 
             myOcean= new JPanel();
             receivedStrikes = new JButton[rows][columns];
-
             myOcean.setLayout(new GridLayout(rows,columns));
+
             for(int row = 0; row < rows; row++){
                 for( int column = 0; column < columns; column++){
                     JButton square = new JButton();
@@ -65,16 +68,20 @@ public class client2 implements ActionListener {
                         square.setBackground(Color.BLACK);
                         square.setText("My Dingy!");
                         square.setForeground(Color.white);
+
                     }
-                    if(player2[row][column] == "2"){
+                    else if(player2[row][column] == "2"){
                         square.setBackground(Color.yellow);
-                        square.setText("My Submarine!");
-                        square.setForeground(Color.white);
-                    }
-                    if(player2[row][column] == "3"){
+                        square.setText("Submarine");
+                        square.setForeground(Color.black);
+                    }else if(player2[row][column] == "3"){
                         square.setBackground(Color.GREEN);
-                        square.setText("My Destroyer!");
-                        square.setForeground(Color.white);
+                        square.setText("Destroyer");
+                        square.setForeground(Color.black);
+                    }else if(player2[row][column] == "4"){
+                        square.setBackground(Color.ORANGE);
+                        square.setText("Carrier");
+                        square.setForeground(Color.black);
                     }
                     square.setOpaque(true);
                     square.setBorderPainted(false);
@@ -85,8 +92,8 @@ public class client2 implements ActionListener {
 
             opponentsOcean = new JPanel();
             sentStrikes = new JButton[rows][columns];
-
             opponentsOcean.setLayout(new GridLayout(rows,columns));
+
             for(int k = 0; k < rows; k++){
                 for( int m = 0; m < columns; m++){
                     JButton square = new JButton();
@@ -107,91 +114,84 @@ public class client2 implements ActionListener {
             butt = new JButton("Send Missile");
             butt.addActionListener(this);
 
-
             JFrame jframe = new JFrame();
             jframe.getContentPane().add(BorderLayout.NORTH, send);
             jframe.getContentPane().add(BorderLayout.EAST, myOcean);
             jframe.getContentPane().add(BorderLayout.WEST, opponentsOcean);
             jframe.getContentPane().add(BorderLayout.SOUTH, butt);
-            //jframe.getContentPane().add(BorderLayout.SOUTH, recieve);
             jframe.setSize(500, 500);
+            jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jframe.setVisible(true);
 
-            while(true){
-                try {
+            while(true) {
+                butt.setEnabled(false);
+                String returnVal = " something broke in the socket";
+                returnVal = socketReader.readLine();
+                System.out.println("The attack I recieved is: " + returnVal);
+                receive.setText(returnVal);
+                receive.repaint();
+                hitOrMiss = grid.check_player_guess(returnVal);
+                grid.print_grid();
+
+                receivedStrike = returnVal.trim().split(",");
+                int user_x_coordinate = Integer.parseInt(receivedStrike[0]);
+                int user_y_coordinate = Integer.parseInt(receivedStrike[1]);
+                if (hitOrMiss.equals("hit")) {
+                    receivedStrikes[user_x_coordinate - 1][user_y_coordinate - 1].setBackground(Color.RED);
+                } else {
+                    receivedStrikes[user_x_coordinate - 1][user_y_coordinate - 1].setBackground(Color.white);
+                }
+                myOcean.repaint();
+
+                System.out.println("I have determined that it is a ..." + hitOrMiss);
+                socketWriter.println(hitOrMiss);
+                socketWriter.flush();
+
+                if (hitOrMiss.equals("hit")) {
+                    hitsOnMe++;
+                }
+                if (hitsOnMe == myShips) {
                     butt.setEnabled(false);
-                    String returnVal = " something broke in the socket";
-                    returnVal = socketReader.readLine();
-                    System.out.println("The attack I recieved is: " + returnVal);
-                    receive.setText(returnVal);
-                    receive.repaint();
-                    hitOrMiss = grid.check_player_guess(returnVal);
-                    grid.print_grid();
-
-                    receivedStrike = returnVal.trim().split(",");
-                    int user_x_coordinate = Integer.parseInt(receivedStrike[0]);
-                    int user_y_coordinate = Integer.parseInt(receivedStrike[1]);
-                    if (hitOrMiss.equals("hit")) {
-                        receivedStrikes[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.RED);
-                    }
-                    else{
-                        receivedStrikes[user_x_coordinate-1][user_y_coordinate-1].setBackground(Color.white);
-                    }
-                    myOcean.repaint();
-
-                    System.out.println("I have determined that it is a ..." + hitOrMiss);
-                    socketWriter.println(hitOrMiss);
-                    socketWriter.flush();
-
-
-                    if(hitOrMiss.equals("hit")){
-                        hitsOnMe++;
-                    }
-                    if(hitsOnMe == myShips){
-                        butt.setEnabled(false);
-                        send.setText("You Got Sunk!!!!");
-                        butt.setEnabled(false);
-                        TimeUnit.SECONDS.sleep(5);
-                        System.exit(1);
-                    }
-
-
-                    butt.setEnabled(true);
-
-                    response = socketReader.readLine();
-                    System.out.println("my attack: "+ attack  +"was a ..." + response);
-
-                    sentStrike = attack.trim().split(",");
-                    int x = Integer.parseInt(sentStrike[0]);
-                    int y = Integer.parseInt(sentStrike[1]);
-                    if(response.equals("hit")){
-                        sentStrikes[x-1][y-1].setBackground(Color.RED);
-                        sentStrikes[x-1][y-1].setText("HIT");
-                    }
-                    else {
-                        sentStrikes[x-1][y-1].setBackground(Color.white);
-                        sentStrikes[x-1][y-1].setText("MISS");
-
-                    }
-                    sentStrikes[x-1][y-1].setForeground(Color.black);
-                    opponentsOcean.repaint();
-
-                    if(response.equals("hit")){
-                        hits++;
-                    }
-                    if(hits == enemyShips){
-                        butt.setEnabled(false);
-                        send.setText("You won the game!!!!");
-                        TimeUnit.SECONDS.sleep(5);
-                        System.exit(1);
-                    }
-
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    send.setText("You Got Sunk!!!!");
+                    butt.setEnabled(false);
+                    TimeUnit.SECONDS.sleep(5);
+                    socketReader.close();
+                    socketWriter.close();
+                    socketReader.close();
+                    System.exit(1);
                 }
 
-            }
+                butt.setEnabled(true);
 
+                response = socketReader.readLine();
+                System.out.println("my attack: " + attack + "was a ..." + response);
+
+                sentStrike = attack.trim().split(",");
+                int x = Integer.parseInt(sentStrike[0]);
+                int y = Integer.parseInt(sentStrike[1]);
+                if (response.equals("hit")) {
+                    sentStrikes[x - 1][y - 1].setBackground(Color.RED);
+                    sentStrikes[x - 1][y - 1].setText("HIT");
+                } else {
+                    sentStrikes[x - 1][y - 1].setBackground(Color.white);
+                    sentStrikes[x - 1][y - 1].setText("MISS");
+                }
+                sentStrikes[x - 1][y - 1].setForeground(Color.black);
+                opponentsOcean.repaint();
+
+                if (response.equals("hit")) {
+                    hits++;
+                }
+                if (hits == enemyShips) {
+                    butt.setEnabled(false);
+                    send.setText("You won the game!!!!");
+                    TimeUnit.SECONDS.sleep(5);
+                    socketReader.close();
+                    socketWriter.close();
+                    socketReader.close();
+                    System.exit(1);
+                }
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }

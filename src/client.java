@@ -10,12 +10,11 @@ import java.util.concurrent.TimeUnit;
 
 public class client implements ActionListener {
     private String attack;
-    public PrintWriter socketWriter;
-    public BufferedReader socketReader;
-    public BufferedReader userReader;
+    private PrintWriter socketWriter;
+    private BufferedReader socketReader;
+    private BufferedReader userReader;
     private JTextField send;
     private JTextField receive;
-
 
     private JButton butt;
     private int count = 0;
@@ -28,11 +27,12 @@ public class client implements ActionListener {
     private String[] receivedStrike;
     private String[] sentStrike;
 
-    private int rows = 5;
-    private int columns = 5;
-    private int enemyShips = 1;
+    private int rows = 7;
+    private int columns = 7;
+    private int enemyShips = 10;
     private int hits = 0;
-    private int myShips = 1;
+    private int myShips;
+
     private int hitsOnMe = 0;
 
     public static void main(String[] args){
@@ -45,17 +45,17 @@ public class client implements ActionListener {
             String[][] player1 = grid.populate_grid();
             grid.place_ship();
             grid.print_grid();
-            Socket sock = new Socket("127.0.0.1", 6969);
+            myShips = grid.getUserShips();
+            System.out.println("My Ships = " + myShips);
+            Socket sock = new Socket("127.0.0.1", 7070);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
 
-
-
             myOcean = new JPanel();
             myOcean.setLayout(new GridLayout(rows,columns));
-
             receivedStrikes = new JButton[rows][columns];
+
 
             for(int row = 0; row < rows; row++){
                 for( int column = 0; column < columns; column++){
@@ -64,20 +64,22 @@ public class client implements ActionListener {
                     square.setText("ocean");
                     if(player1[row][column] == "1"){
                         square.setBackground(Color.BLACK);
-                        square.setText("My Dingy!");
+                        square.setText("Dingy");
                         square.setForeground(Color.white);
                     }
-                    if(player1[row][column] == "2"){
+                    else if(player1[row][column] == "2"){
                         square.setBackground(Color.yellow);
-                        square.setText("My Submarine!");
+                        square.setText("Submarine");
                         square.setForeground(Color.white);
-                    }
-                    if(player1[row][column] == "3"){
+                    }else if(player1[row][column] == "3"){
                         square.setBackground(Color.GREEN);
-                        square.setText("My Destroyer!");
-                        square.setForeground(Color.white);
+                        square.setText("Destroyer");
+                        square.setForeground(Color.black);
+                    }else if(player1[row][column] == "4"){
+                        square.setBackground(Color.ORANGE);
+                        square.setText("Carrier");
+                        square.setForeground(Color.black);
                     }
-
                     square.setOpaque(true);
                     square.setBorderPainted(false);
 
@@ -86,9 +88,9 @@ public class client implements ActionListener {
                 }
             }
 
+
             opponentsOcean = new JPanel();
             opponentsOcean.setLayout(new GridLayout(rows,columns));
-
             sentStrikes = new JButton[rows][columns];
 
             for(int k = 0; k < rows; k++){
@@ -105,8 +107,6 @@ public class client implements ActionListener {
                 }
             }
 
-
-
             send = new JTextField();
             send.setText("Enter the coordinates you want to strike");
             receive = new JTextField();
@@ -119,6 +119,7 @@ public class client implements ActionListener {
             jframe.getContentPane().add(BorderLayout.WEST, opponentsOcean);
             jframe.getContentPane().add(BorderLayout.SOUTH, butt);
             jframe.setSize(500, 500);
+            jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jframe.setVisible(true);
 
             while(true){
@@ -145,9 +146,11 @@ public class client implements ActionListener {
                     butt.setEnabled(false);
                     send.setText("You won the game!!!!");
                     TimeUnit.SECONDS.sleep(5);
+                    socketReader.close();
+                    socketWriter.close();
+                    socketReader.close();
                     System.exit(1);
                 }
-
 
                 String returnVal = " something broke in the socket";
                 returnVal = socketReader.readLine();
@@ -178,9 +181,11 @@ public class client implements ActionListener {
                     send.setText("You Got Sunk!!!!");
                     butt.setEnabled(false);
                     TimeUnit.SECONDS.sleep(5);
+                    socketReader.close();
+                    socketWriter.close();
+                    socketReader.close();
                     System.exit(1);
                 }
-
 
                 butt.setEnabled(true);
             }

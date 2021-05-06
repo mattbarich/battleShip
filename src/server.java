@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,9 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class server {
-    public String attack = "first round";
+    private String attack = "first round";
     private String outcome = "hit";
-    public int turn = 1;
+    private int turn = 1;
     public static void main(String[] args) {
         (new server()).go();
     }
@@ -17,7 +18,7 @@ public class server {
         //player 1
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(6969);
+            serverSocket = new ServerSocket(7070);
             System.out.println("waiting for client to connect");
 
             Socket socket1 = serverSocket.accept();
@@ -191,7 +192,4 @@ public class server {
         }
     }
 
-
-}//big main
-
-//use inner classes
+}
