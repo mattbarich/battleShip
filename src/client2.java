@@ -111,7 +111,6 @@ public class client2 implements ActionListener {
             butt = new JButton("Send Missile");
             butt.addActionListener(this);
 
-
             JFrame jframe = new JFrame();
             jframe.getContentPane().add(BorderLayout.NORTH, send);
             jframe.getContentPane().add(BorderLayout.EAST, myOcean);
@@ -155,13 +154,10 @@ public class client2 implements ActionListener {
                         TimeUnit.SECONDS.sleep(5);
                         System.exit(1);
                     }
-
-
                     butt.setEnabled(true);
 
                     response = socketReader.readLine();
                     System.out.println("my attack: "+ attack  +"was a ..." + response);
-
                     sentStrike = attack.trim().split(",");
                     int x = Integer.parseInt(sentStrike[0]);
                     int y = Integer.parseInt(sentStrike[1]);
@@ -186,7 +182,6 @@ public class client2 implements ActionListener {
                         TimeUnit.SECONDS.sleep(5);
                         System.exit(1);
                     }
-
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

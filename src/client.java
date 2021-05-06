@@ -16,7 +16,6 @@ public class client implements ActionListener {
     private JTextField send;
     private JTextField receive;
 
-
     private JButton butt;
     private int count = 0;
     private String hitOrMiss;
@@ -52,13 +51,10 @@ public class client implements ActionListener {
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             userReader = new BufferedReader(new InputStreamReader(System.in));
 
-
-
             myOcean = new JPanel();
             myOcean.setLayout(new GridLayout(rows,columns));
 
             receivedStrikes = new JButton[rows][columns];
-
             for(int row = 0; row < rows; row++){
                 for( int column = 0; column < columns; column++){
                     JButton square = new JButton();
@@ -81,10 +77,8 @@ public class client implements ActionListener {
                         square.setText("My Carrier!");
                         square.setForeground(Color.white);
                     }
-
                     square.setOpaque(true);
                     square.setBorderPainted(false);
-
                     receivedStrikes[row][column] = square;
                     myOcean.add(square);
                 }
@@ -100,7 +94,6 @@ public class client implements ActionListener {
                     square.setForeground(Color.yellow);
                     square.setOpaque(true);
                     square.setBorderPainted(false);
-
                     sentStrikes[k][m] = square;
                     opponentsOcean.add(square);
                 }
@@ -135,7 +128,6 @@ public class client implements ActionListener {
                 }
                 sentStrikes[x-1][y-1].setForeground(Color.black);
                 opponentsOcean.repaint();
-
                 if(response.equals("hit")){
                     hits++;
                 }

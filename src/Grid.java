@@ -1,6 +1,3 @@
-import java.time.temporal.ValueRange;
-import java.util.ArrayList;
-
 public class Grid {
     public static final int NUM_ROW = 9;
     public static final int NUM_COL = 9;
@@ -8,8 +5,6 @@ public class Grid {
     String[][] grid = new String[NUM_ROW][NUM_COL];
     String[] line;
     String default_value = "-";
-
-    ArrayList<Integer> row_coordinates = new ArrayList<Integer>();
 
     String[][] populate_grid() {
         for (int row = 0; row < NUM_ROW; row++) {
@@ -84,12 +79,10 @@ public class Grid {
                 row_coordinate = getShipRow(9,7);
             }
             int col_coordinate = (int) (Math.random()* 7- 1) + 1;
-            row_coordinates.add(row_coordinate);
             place_user_ships(row_coordinate, col_coordinate, count);
             ship_size(row_coordinate, col_coordinate, count);
         }
     }
-
 
     String check_player_guess(String returnVal){
         line = returnVal.trim().split(",");
@@ -109,6 +102,7 @@ public class Grid {
         }
         return returnVal;
     }
+
     int getUserShips(){
         int shipsPlaced = 0;
         for (int row = 0; row < NUM_ROW; row++) {
