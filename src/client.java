@@ -28,8 +28,6 @@ public class client implements ActionListener {
     private String[] receivedStrike;
     private String[] sentStrike;
 
-    private String missSound = "..//soundEffects/hit.wav";
-
     private int rows = 7;
     private int columns = 7;
     private int enemyShips = 10;
@@ -57,7 +55,6 @@ public class client implements ActionListener {
             myOcean = new JPanel();
             myOcean.setLayout(new GridLayout(rows,columns));
             receivedStrikes = new JButton[rows][columns];
-
 
             for(int row = 0; row < rows; row++){
                 for( int column = 0; column < columns; column++){
@@ -90,7 +87,6 @@ public class client implements ActionListener {
                 }
             }
 
-
             opponentsOcean = new JPanel();
             opponentsOcean.setLayout(new GridLayout(rows,columns));
             sentStrikes = new JButton[rows][columns];
@@ -108,7 +104,6 @@ public class client implements ActionListener {
                     opponentsOcean.add(square);
                 }
             }
-
             send = new JTextField();
             send.setText("Enter the coordinates you want to strike");
             receive = new JTextField();
@@ -204,15 +199,12 @@ public class client implements ActionListener {
                     socketReader.close();
                     System.exit(1);
                 }
-
                 butt.setEnabled(true);
             }
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         attack = send.getText();
@@ -220,7 +212,6 @@ public class client implements ActionListener {
         socketWriter.flush();
         butt.setEnabled(false);
     }
-
     private static void playHit(File Sound){
         try {
             Clip clip = AudioSystem.getClip();
