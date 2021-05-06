@@ -48,7 +48,6 @@ public class client2 implements ActionListener {
             grid.place_ship();
             grid.print_grid();
             myShips = grid.getUserShips();
-            System.out.println(myShips);
             Socket sock = new Socket("127.0.0.1", 7070);
             socketWriter = new PrintWriter(sock.getOutputStream());
             socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
