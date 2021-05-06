@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
-
 public class Grid {
     public static final int NUM_ROW = 7;
     public static final int NUM_COL = 7;

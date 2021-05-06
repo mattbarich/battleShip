@@ -1,10 +1,6 @@
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -152,6 +148,12 @@ public class client implements ActionListener {
                 if(hits == enemyShips){
                     butt.setEnabled(false);
                     send.setText("You won the game!!!!");
+                    TimeUnit.SECONDS.sleep(2);
+                    File gameover = new File(".//soundEffects//gameOver.wav");
+                    playHit(gameover);
+                    TimeUnit.SECONDS.sleep(1);
+                    File gameOver = new File(".//soundEffects//talking.wav");
+                    playHit(gameOver);
                     TimeUnit.SECONDS.sleep(5);
                     socketReader.close();
                     socketWriter.close();
@@ -191,6 +193,12 @@ public class client implements ActionListener {
                     butt.setEnabled(false);
                     send.setText("You Got Sunk!!!!");
                     butt.setEnabled(false);
+                    TimeUnit.SECONDS.sleep(2);
+                    File gameover = new File(".//soundEffects//gameOver.wav");
+                    playHit(gameover);
+                    TimeUnit.SECONDS.sleep(1);
+                    File gameOver = new File(".//soundEffects//talking.wav");
+                    playHit(gameOver);
                     TimeUnit.SECONDS.sleep(5);
                     socketReader.close();
                     socketWriter.close();

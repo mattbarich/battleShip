@@ -157,7 +157,7 @@ public class client2 implements ActionListener {
                     butt.setEnabled(false);
                     send.setText("You Got Sunk!!!!");
                     butt.setEnabled(false);
-                    TimeUnit.SECONDS.sleep(5);
+                    TimeUnit.SECONDS.sleep(8);
                     socketReader.close();
                     socketWriter.close();
                     socketReader.close();
@@ -188,7 +188,7 @@ public class client2 implements ActionListener {
                 if (hits == enemyShips) {
                     butt.setEnabled(false);
                     send.setText("You won the game!!!!");
-                    TimeUnit.SECONDS.sleep(5);
+                    TimeUnit.SECONDS.sleep(8);
                     socketReader.close();
                     socketWriter.close();
                     socketReader.close();
