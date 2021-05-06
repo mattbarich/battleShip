@@ -27,11 +27,9 @@ public class Grid {
                 grid[row_coordinate-1][col_coordinate+1] = "3";
                 break;
             case 3:
-                for(int i=1; i<4; i++){
-                    grid[row_coordinate-1][col_coordinate] = "4";
-                    grid[row_coordinate-1][col_coordinate+1] = "4";
-                    grid[row_coordinate-1][col_coordinate+2] = "4";
-                }
+                grid[row_coordinate-1][col_coordinate] = "4";
+                grid[row_coordinate-1][col_coordinate+1] = "4";
+                grid[row_coordinate-1][col_coordinate+2] = "4";
                 break;
         }
     }
@@ -106,7 +104,7 @@ public class Grid {
         return returnVal;
     }
 
-//}
+    //}
     int getUserShips(){
         int shipsPlaced = 0;
         for (int row = 0; row < NUM_ROW; row++) {
