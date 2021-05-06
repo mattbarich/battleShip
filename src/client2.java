@@ -29,8 +29,8 @@ public class client2 implements ActionListener {
     private String[] receivedStrike;
     private String[] sentStrike;
 
-    private int rows = 5;
-    private int columns = 5;
+    private int rows = 9;
+    private int columns = 9;
     private int enemyShips = 6;
     private int hits = 0;
     private int hitsOnMe = 0;
@@ -67,15 +67,17 @@ public class client2 implements ActionListener {
                         square.setBackground(Color.BLACK);
                         square.setText("My Dingy!");
                         square.setForeground(Color.white);
-                    }
-                    if(player2[row][column] == "2"){
+                    }else if(player2[row][column] == "2"){
                         square.setBackground(Color.yellow);
                         square.setText("My Submarine!");
                         square.setForeground(Color.white);
-                    }
-                    if(player2[row][column] == "3"){
+                    }else if(player2[row][column] == "3"){
                         square.setBackground(Color.GREEN);
                         square.setText("My Destroyer!");
+                        square.setForeground(Color.white);
+                    }else if(player2[row][column] == "4"){
+                        square.setBackground(Color.ORANGE);
+                        square.setText("My Carrier!");
                         square.setForeground(Color.white);
                     }
                     square.setOpaque(true);

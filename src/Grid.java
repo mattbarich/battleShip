@@ -2,8 +2,8 @@ import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 
 public class Grid {
-    public static final int NUM_ROW = 5;
-    public static final int NUM_COL = 5;
+    public static final int NUM_ROW = 9;
+    public static final int NUM_COL = 9;
 
     String[][] grid = new String[NUM_ROW][NUM_COL];
     String[] line;
@@ -30,6 +30,14 @@ public class Grid {
             case 2:
                 grid[row_coordinate-1][col_coordinate] = "3";
                 grid[row_coordinate-1][col_coordinate+1] = "3";
+                break;
+            case 3:
+                for(int i=1; i<4; i++){
+                    grid[row_coordinate-1][col_coordinate] = "4";
+                    grid[row_coordinate-1][col_coordinate+1] = "4";
+                    grid[row_coordinate-1][col_coordinate+2] = "4";
+                }
+                break;
         }
     }
 
@@ -50,24 +58,32 @@ public class Grid {
             case 2:
                 grid[row_coordinate-1][col_coordinate-1] = "3";
                 break;
+            case 3:
+                grid[row_coordinate-1][col_coordinate-1] = "4";
+                break;
             default:
                 grid[row_coordinate-1][col_coordinate-1] = "1";
                 break;
         }
     }
 
-    private int getRowNum(int max, int min){
+    private int getShipRow(int max, int min){
         return (int) (Math.random() * ((max-min) + 1)) + min;
     }
 
     void place_ship(){
-        for(int i=0; i < 3; i++){
+        for(int i=0; i < 4; i++){
             int count = i;
             int row_coordinate = i+1;
-            if(row_coordinate == 3){
-                row_coordinate = getRowNum(5,3);
+            if(row_coordinate == 2){
+                row_coordinate = getShipRow(3,2 );
             }
-            int col_coordinate = (int) (Math.random()*4 - 1) + 1;
+            else if(row_coordinate == 3){
+                row_coordinate = getShipRow(6,4);
+            }else if(row_coordinate == 4){
+                row_coordinate = getShipRow(9,7);
+            }
+            int col_coordinate = (int) (Math.random()* 7- 1) + 1;
             row_coordinates.add(row_coordinate);
             place_user_ships(row_coordinate, col_coordinate, count);
             ship_size(row_coordinate, col_coordinate, count);
